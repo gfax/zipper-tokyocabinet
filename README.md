@@ -3,7 +3,7 @@ zipper-tokyocabinet
 
 This is a single script file that serves a web page for shortening urls. It uses tokyocabinet and base-62 numerals for very small and efficient url storage.
 
-===Usage===
+### Usage
 * gem install sinatra haml tokyocabinet
 * shotgun zipper.rb
 
