@@ -16,13 +16,13 @@ DBFile = 'links.tch'
 # URL's are given a base-62 ID to make them as small as possible.
 module Base62
   NUMERALS = ('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a
-  
+
   def encode(i)
     raise ArgumentError unless Numeric === i
     return '0' if i == 0
     s = ''
     while i > 0
-      s << Base62::NUMERALS[i.modulo(62)]
+      s << NUMERALS[i.modulo(62)]
       i /= 62
     end
     s.reverse
