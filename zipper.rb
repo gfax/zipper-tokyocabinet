@@ -32,10 +32,11 @@ module Base62
     s = i.to_s.reverse.split('') 
     total = 0
     s.each_with_index do |char, index|
+      # Check link for valid chars.
       if ord = NUMERALS.index(char)
         total += ord * (62 ** index)
       else
-        raise ArgumentError, "\"#{i}\" contains invalid number/string \"#{char}\"."
+        return nil
       end
     end
     total.to_s
@@ -71,6 +72,7 @@ module UrlShortener
   def self.original(shortened)
     bdb = HDB.new
     bdb.open(DBFile, HDB::OWRITER | HDB::OCREAT)
+    # Returns nil if link is an invalid base-62 number.
     bdb.get(Base62.decode(shortened).to_i)
   end
 
@@ -90,8 +92,8 @@ end
 
 get '/:shortened' do
   original_url = UrlShortener.original(params[:shortened])
-  if original_url == nil
-    "No url."
+  if original_url.nil?
+    redirect '/'
   else
     redirect original_url
   end
